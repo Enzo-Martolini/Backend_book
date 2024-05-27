@@ -1,19 +1,12 @@
 const express = require('express');
+const { setPosts, putPost, editPost } = require('../controllers/book.controllers');
 const router = express.Router();
 
 router.get("/", (req, res) => {
     res.json({message: "voici les données de get"})
 });
 
-router.post("/", (req, res) => {
-    res.json({
-        Titre: req.body.title,
-        Auteur: req.body.author,
-        Etat: req.body.etat,
-        maxPages: req.body.pagesMax,
-        readedPages: req.body.pagesReaded,
-        Categories: req.body.categories,
-    })
-});
+router.post("/", setPosts);
+router.put("/:id", editPost);
 
 module.exports = router;
