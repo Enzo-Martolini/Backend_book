@@ -1,5 +1,5 @@
 const express = require('express');
-const { setPosts, putPost, editPost } = require('../controllers/book.controllers');
+const { setPosts, putPost, editPages, editState } = require('../controllers/book.controllers');
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -7,6 +7,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", setPosts);
-router.put("/:id", editPost);
+router.put("/:id", editPages);
+router.put("/:id", editState);
 
 module.exports = router;

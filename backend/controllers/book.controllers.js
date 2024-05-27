@@ -14,9 +14,7 @@ module.exports.setPosts = async (req, res) => {
 }
 
 //Modifie le nombre de pages lues
-module.exports.editPost = async (req, res) => {
-
-    const post = await bookModel.findById(req.params.id);
+module.exports.editPages= async (req, res) => {
 
     const updatePost = await bookModel.findByIdAndUpdate(req.params.id, {readedPages:  parseInt(req.body.readedPages)}, {
         new: true
@@ -24,4 +22,14 @@ module.exports.editPost = async (req, res) => {
     console.log(req.params.id, {readedPages:  parseInt(req.body.readedPages)});
     res.status(200).json(updatePost);
     console.log()
+}
+
+//Modifie l'état du livre
+module.exports.editState= async (req, res) => {
+
+    const updatePost = await bookModel.findByIdAndUpdate(req.params.id, {state: req.body.state}, {
+        new: true
+    });
+
+    res.status(200).json(updatePost);
 }
