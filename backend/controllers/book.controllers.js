@@ -1,17 +1,25 @@
-const bookModel = require("../models/bookModel");
+const Book = require("../models/bookModel");
 
 //Crée un fonction setPosts qui sera utilisé dans la route Post
-module.exports.setPosts = async (req, res) => { 
-    const book = await bookModel.create({
-        title: req.body.title,
-        author: req.body.author,
-        state: req.body.etat,
-        maxPages: req.body.pagesMax,
-        readedPages: req.body.pagesReaded,
-        Categories: req.body.categories
-    })
-    res.json({message : req.body.title + " enregistré"})
-}
+module.exports.setPosts = async (req, res) => {
+    try {
+        console.log(req.body);
+
+        const book = new Book({
+            title: req.body.title,
+            author: req.body.author,
+            state: req.body.state,
+            maxPages: Number(req.body.maxPages),
+            readedPages: req.body.readedPages ? Number(req.body.readedPages) : undefined,
+            categories: Array.isArray(req.body.categories) ? req.body.categories : [req.body.categories]
+        });
+
+        await book.save();
+        res.status(200).send(book);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+};
 
 //Modifie le nombre de pages lues
 module.exports.editPages= async (req, res) => {
@@ -19,7 +27,6 @@ module.exports.editPages= async (req, res) => {
     const updatePost = await bookModel.findByIdAndUpdate(req.params.id, {readedPages:  parseInt(req.body.readedPages)}, {
         new: true
     });
-    console.log(req.params.id, {readedPages:  parseInt(req.body.readedPages)});
     res.status(200).json(updatePost);
     console.log()
 }
@@ -33,3 +40,16 @@ module.exports.editState= async (req, res) => {
 
     res.status(200).json(updatePost);
 }
+
+// Fonction pour récupérer tous les livres
+module.exports.getAllBooks = async (req, res) => {
+    
+        const books = await bookModel.find(); // Récupère tous les livres
+        res.status(200).json(books);
+};
+
+module.exports.getBookById = async (req, res) => {
+
+        const books = await bookModel.findById(req.params.id); // Récupère le livre correspondant à l'ID
+        res.status(200).json(books);
+};

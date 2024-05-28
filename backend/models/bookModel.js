@@ -1,7 +1,7 @@
 const mongoose = require ("mongoose");
 
 
-const bookSchema = mongoose.Schema( //Je crée le shema bookSchema
+const bookSchema = new mongoose.Schema( //Je crée le shema bookSchema
     {
         title: {
             type: String,
@@ -22,7 +22,7 @@ const bookSchema = mongoose.Schema( //Je crée le shema bookSchema
         readedPages: {
             type: Number,
         },
-        Categories: {
+        categories: {
             type: [String]
         },
     },
@@ -32,4 +32,5 @@ const bookSchema = mongoose.Schema( //Je crée le shema bookSchema
 )
 
 // Exporte le modèle de données pour le livre (book) en utilisant le schéma bookSchema
-module.exports = mongoose.model('book', bookSchema);
+const Book = mongoose.model('Book', bookSchema);
+module.exports = Book
