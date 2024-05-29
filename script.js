@@ -18,7 +18,7 @@ document.getElementById('bookForm').addEventListener('submit', async function(e)
     };
 
     try {
-        const response = await fetch('http://localhost:3000/post', {
+        const response = await fetch('http://localhost:3000/post/addBook', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -32,3 +32,27 @@ document.getElementById('bookForm').addEventListener('submit', async function(e)
         alert('Une erreur est survenue lors de l\'ajout du livre.');
     }
 });
+
+
+
+const testFetchBooks = async () => {
+    try {
+        const response = await fetch('http://localhost:3000/get/books');
+        if (!response.ok) {
+            throw new Error('Failed to fetch books');
+        }
+        const books = await response.json();
+        localStorage.setItem("Books", JSON.stringify(books)); //stock les livres dans le localstorage
+
+        // Ajoutez la ligne suivante pour afficher les livres dans la console
+        console.log(books);
+    } catch (error) {
+        console.error("Failed to fetch books:", error);
+    }
+};
+
+testFetchBooks();
+
+books = JSON.parse(localStorage.getItem("Books")); //récupère les livres depuis le localstorage
+console.log(books);
+

@@ -4,9 +4,9 @@ const { setPosts, putPost, editPages, editState, getAllBooks, getBookById } = re
 const router = express.Router();
 
 //Route pour récuperer tous les livres
-router.get("/", getAllBooks);
+router.get("/book", getAllBooks);
 
 //Route pour récuperer un livre selon l'ID
-router.get("/:id", getBookById);
+router.get("/book/:id", getBookById);
 
 module.exports = router;
