@@ -6,11 +6,6 @@ router.get("/", (req, res) => {
     res.json({message: "voici les données de get"})
 });
 
-<<<<<<< Updated upstream
-router.post("/", setPosts);
-router.put("/:id", editPages);
-router.put("/:id", editState);
-=======
 
 //Route pour ajouter un livre dans la BDD
 router.post("/addBook", setPosts);
@@ -20,6 +15,5 @@ router.put("/:id/pages", editPages);
 
 // Route pour modifier l'état du livre
 router.put("/:id/state", editState);
->>>>>>> Stashed changes
 
 module.exports = router;

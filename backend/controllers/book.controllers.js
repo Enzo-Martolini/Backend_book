@@ -2,21 +2,9 @@ const bookModel = require("../models/bookModel");
 
 //Crée un fonction setPosts qui sera utilisé dans la route Post
 module.exports.setPosts = async (req, res) => { 
-<<<<<<< Updated upstream
-    const book = await bookModel.create({
-        title: req.body.title,
-        author: req.body.author,
-        state: req.body.etat,
-        maxPages: req.body.pagesMax,
-        readedPages: req.body.pagesReaded,
-        Categories: req.body.categories
-    })
-    res.json({message : req.body.title + " enregistré"})
-}
-=======
     try {
         console.log
-        const book = await Book({
+        const book = await bookModel({
             title: req.body.title,
             author: req.body.author,
             state: req.body.etat,
@@ -30,18 +18,20 @@ module.exports.setPosts = async (req, res) => {
 res.status(400).send(e)
     }
 } 
->>>>>>> Stashed changes
 
 //Modifie le nombre de pages lues
-module.exports.editPages= async (req, res) => {
-
-    const updatePost = await bookModel.findByIdAndUpdate(req.params.id, {readedPages:  parseInt(req.body.readedPages)}, {
-        new: true
-    });
-    console.log(req.params.id, {readedPages:  parseInt(req.body.readedPages)});
-    res.status(200).json(updatePost);
-    console.log()
-}
+module.exports.editPages = async (req, res) => {
+    try {
+        const updatePost = await bookModel.findByIdAndUpdate(req.params.id, { readedPages: parseInt(req.query.readedPages) }, { new: true });
+        if (!updatePost) {
+            return res.status(404).json({ message: "Book not found" });
+        }
+        res.status(200).json(updatePost);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
 
 //Modifie l'état du livre
 module.exports.editState= async (req, res) => {
@@ -51,9 +41,6 @@ module.exports.editState= async (req, res) => {
     });
 
     res.status(200).json(updatePost);
-<<<<<<< Updated upstream
-}
-=======
 }
 
 // Fonction pour récupérer tous les livres
@@ -70,7 +57,7 @@ module.exports.getBookById = async (req, res) => {
 };
 
 module.exports.getBookByCategory = async (req, res) => {
-    const books = await bookModel.find({categories : req.params});
+    const { filtre } = req.params;
+    const books = await bookModel.find({categories : filtre}); //Récupère les livres correspondant aux filtres
     res.json(books);
 };
->>>>>>> Stashed changes
